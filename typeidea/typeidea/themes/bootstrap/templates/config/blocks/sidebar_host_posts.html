@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.css">
+</head>
+<body>
+    <ul>
+        {% for post in posts %}
+        <li><a href="/post/{{ post.id }}.html">{{ post.title}}</a><span class="badge">访问量：{{ post.pv }}</span> </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

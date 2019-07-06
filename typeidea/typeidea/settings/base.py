@@ -31,9 +31,16 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'typeidea',
     'blog',
     'config',
     'comment',
+    'xadmin',
+    'crispy_forms',
+    'dal',
+    'dal_select2',
+    'ckeditor',
+    'ckeditor_uploader',
 
     'django.contrib.admin',
     'django.contrib.auth',
@@ -44,6 +51,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'blog.middleware.user_id.UserIDMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -55,10 +63,12 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'typeidea.urls'
 
+THEME = 'bootstrap'
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'themes', THEME, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -122,3 +132,32 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
+
+# STATIC_ROOT = '/tmp/static'
+#
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'themes', THEME, "static/js"),
+]
+
+XADMIN_TITLE = 'blog管理后台'
+XADMIN_FOOTER_TITLE = 'designed by 帅比康'
+
+#配置blog的内容模块的富文本编辑器
+CKEDITOR_CONFIGS = {
+    'default': {
+        'toolbar': 'full',
+        'height': '300',
+        'width': '800',
+        'tabSpaces': 4,
+        'extraPlugins': 'codesnippet',
+    },
+}
+
+#配置内容模块的上传功能的路径
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+CKEDITOR_UPLOAD_PATH = "article_images"
+
+
+#配置图片打水印，重写了Storage
+DEFAULT_FILE_STORAGE = 'typeidea.storage.WatermarkStorage'
